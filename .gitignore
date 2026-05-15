@@ -1,2 +1,10 @@
 *.env
 .cache
+/.venv/
+venv/
+__pycache__/
+.ipynb_checkpoints/
+data/
+*.csv
+*.sqlite
+.DS_Store

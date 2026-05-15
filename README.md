@@ -1,6 +1,9 @@
 # 🎧 MetaTune: The Beat of Your Gameplay
 
+Hi, I'm Mohamed Zirar, third year Computer Science student, and future Data Scientist!
 **MetaTune** is a Data Science project born from my love for video game original soundtracks (OSTs). After finishing a game or spending hours in its world, I often listen to the OST on loop.
+
+This GitHub repo shows the full thinking process behind the project, not just the final code. It includes the data sourcing decisions, the legal checks, the API tradeoffs, and the notebook work that led to the current pipeline.
 
 This project answers the question:
 **"How can I find songs that match the vibe of a specific game or, even better, a blend of multiple games I'm playing?"**
@@ -13,15 +16,25 @@ Most recommenders analyze one source at a time. **MetaTune** allows you to blend
 Want the epic, orchestral scale of *The Legend of Zelda* mixed with the gritty, industrial anxiety of *Lethal Company*? The engine calculates a **Mood Centroid**—a mathematical "sweet spot" between these worlds—to find tracks that sit at the intersection of your favorite games.
 
 ## Project Roadmap
-- [ ] *Phase 1:* Leveraging the `Spotipy` API to extract high-dimensional audio features (Energy, Valence, Acousticness, etc.) from game OSTs.
+- [ ] *Phase 1:* Leveraging `Spotify` for track discovery and `RapidAPI` for redirected audio analysis after Spotify deprecated the audio-features endpoint.
+(https://rapidapi.com/soundnet-soundnet-default/api/track-analysis)
 - [ ] *Phase 2:* Building a vector-based aggregator that merges multiple game profiles into a single "target vibe" using weighted averages.
 - [ ] *Phase 3:* Implementing `MinMaxScaler` for data normalization and using Euclidean Distance to rank the tracks that are "closest" to the game's atmosphere.
 - [ ] **Phase 4:* Creating interactive Radar Charts to visualize how well a recommended song overlaps with the game's profile.
 
+## What we'll do here
+
+- Use the Steam Web API (or a manual seed list) to identify game titles and verify `appid`s.
+- Map games to soundtrack albums via `spotipy` (Spotify search) and resolve album/track IDs.
+- Use a Track Analysis API (RapidAPI / SoundNet) to collect audio features (danceability, energy, valence/happiness, acousticness, instrumentalness, liveness, speechiness, tempo, etc.).
+- Cache API results locally under `data/` to avoid re-querying and respect rate limits.
+- Aggregate track features per game to compute a mood centroid and produce music recommendations.
+- Keep API keys out of the repo (`.env`) and do not store personal Steam data unless explicitly consented.
+
 ## Tech Stack
 *   **Data Science:** Pandas & NumPy
 *   **Machine Learning:** Scikit-Learn (`MinMaxScaler`, Similarity Metrics)
-*   **APIs:** Spotipy (Spotify Web API)
+*   **APIs:** Spotipy for Spotify search and album discovery, RapidAPI Track Analysis for redirected audio features
 *   **Visuals:** Plotly / Matplotlib
 
 ## Structure
