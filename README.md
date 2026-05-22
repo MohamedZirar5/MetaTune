@@ -16,7 +16,7 @@ Most recommenders analyze one source at a time. **MetaTune** allows you to blend
 Want the epic, orchestral scale of *The Legend of Zelda* mixed with the gritty, industrial anxiety of *Lethal Company*? The engine calculates a **Mood Centroid**—a mathematical "sweet spot" between these worlds—to find tracks that sit at the intersection of your favorite games.
 
 ## Project Roadmap
-- [ ] *Phase 1:* Leveraging `Spotify` for track discovery and `RapidAPI` for redirected audio analysis after Spotify deprecated the audio-features endpoint.
+- [x] *Phase 1:* Leveraging `Spotify` for track discovery and `RapidAPI` for redirected audio analysis after Spotify deprecated the audio-features endpoint.
 (https://rapidapi.com/soundnet-soundnet-default/api/track-analysis)
 - [ ] *Phase 2:* Building a vector-based aggregator that merges multiple game profiles into a single "target vibe" using weighted averages.
 - [ ] *Phase 3:* Implementing `MinMaxScaler` for data normalization and using Euclidean Distance to rank the tracks that are "closest" to the game's atmosphere.
@@ -38,9 +38,11 @@ Want the epic, orchestral scale of *The Legend of Zelda* mixed with the gritty, 
 *   **Visuals:** Plotly / Matplotlib
 
 ## Structure
-*   `/data`: The "Sound Signatures"—curated datasets of audio features.
+*   `/data`: The "Sound Signatures" curated datasets of audio features.
 *   `/notebooks`: Experimental "lab" for vector fusion and similarity math.
 *   `/src`: The core recommendation engine (`engine.py`).
+
+Note: I cleared the output of the first 2 notebooks so I don’t leak my IDs or the raw RapidAPI data. For the rest, I left the outputs in place so you can see the analysis and results.
 
 ---
 
