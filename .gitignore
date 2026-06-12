@@ -8,3 +8,4 @@ data/
 *.csv
 *.sqlite
 .DS_Store
+.cache-user
