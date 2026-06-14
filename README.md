@@ -11,36 +11,50 @@ This project answers the question:
 While many users create these playlists manually, they are often biased toward individual taste. As an incoming Data Science Master's student and long-time gamer, I wanted to build an automated music recommender that bridges the gap between gaming and music through data.
 
 ## The Core Idea: Multi-Atmosphere Fusion
-Most recommenders analyze one source at a time. **MetaTune** allows you to blend multiple games that currently matches your mood. We'll call those "meta-moods"
+Most recommenders analyze one source at a time. **MetaTune** lets you blend several games into one mood. I call those "meta-moods".
 
-Want the epic, orchestral scale of *The Legend of Zelda* mixed with the gritty, industrial anxiety of *Lethal Company*? The engine calculates a **Mood Centroid**—a mathematical "sweet spot" between these worlds—to find tracks that sit at the intersection of your favorite games.
+Want the cozy farm life of *Stardew Valley* mixed with the cold sci-fi tension of *Detroit: Become Human*? The engine averages each game's audio "signature" into a **Mood Centroid** (the sweet spot between those worlds), then recommends **real songs**, real artists, not just other game soundtracks, that sit closest to it.
 
 ## Project Roadmap
-- [x] *Phase 1:* Leveraging `Spotify` for track discovery and `RapidAPI` for redirected audio analysis after Spotify deprecated the audio-features endpoint.
+- [x] *Phase 1:* Track discovery with `Spotify` and audio features via `RapidAPI` (after Spotify deprecated the audio-features endpoint).
 (https://rapidapi.com/soundnet-soundnet-default/api/track-analysis)
-- [ ] *Phase 2:* Building a vector-based aggregator that merges multiple game profiles into a single "target vibe" using weighted averages.
-- [ ] *Phase 3:* Implementing `MinMaxScaler` for data normalization and using Euclidean Distance to rank the tracks that are "closest" to the game's atmosphere.
-- [ ] **Phase 4:* Creating interactive Radar Charts to visualize how well a recommended song overlaps with the game's profile.
+- [x] *Phase 2:* Merging several game profiles into one "target vibe" with weighted averages (the meta-mood).
+- [x] *Phase 3:* `MinMaxScaler` for normalization, then ranking tracks by cosine similarity, with AGNES clustering + MMR re-ranking to keep the playlist varied.
+- [x] *Phase 4:* Recommending **real (non-OST) songs** from a public Spotify audio-features dataset, no RapidAPI fetching needed.
+- [x] *Phase 5:* Exporting the result as a playlist (an M3U file, or straight into a Spotify playlist through the API).
+- [ ] *Phase 6:* Interactive Radar Charts to visualize how well a recommended song overlaps the mood.
 
-## What we'll do here
+## How it works
 
-- Use the Steam Web API (or a manual seed list) to identify game titles and verify `appid`s.
-- Map games to soundtrack albums via `spotipy` (Spotify search) and resolve album/track IDs.
-- Use a Track Analysis API (RapidAPI / SoundNet) to collect audio features (danceability, energy, valence/happiness, acousticness, instrumentalness, liveness, speechiness, tempo, etc.).
-- Cache API results locally under `data/` to avoid re-querying and respect rate limits.
-- Aggregate track features per game to compute a mood centroid and produce music recommendations.
-- Keep API keys out of the repo (`.env`) and do not store personal Steam data unless explicitly consented.
+- Identify game titles (Steam Web API / a manual seed list) and map them to soundtrack albums via `spotipy`.
+- Collect the 8 audio features (danceability, energy, valence, acousticness, instrumentalness, liveness, speechiness, tempo) for each OST track through RapidAPI, cached under `data/`.
+- Average each game's tracks into a "sound signature", then blend several signatures into one weighted mood centroid.
+- For the real-music recommendations, reuse a public Spotify audio-features dataset (114k songs, pulled with `kagglehub`) so I don't have to fetch anything, harmonize its 0–1 scale with the OST 0–100 features, and rank songs by cosine similarity + MMR.
+- Export the playlist to an M3U file or push it straight to Spotify.
+- Keep API keys out of the repo (`.env`).
 
 ## Tech Stack
 *   **Data Science:** Pandas & NumPy
-*   **Machine Learning:** Scikit-Learn (`MinMaxScaler`, Similarity Metrics)
-*   **APIs:** Spotipy for Spotify search and album discovery, RapidAPI Track Analysis for redirected audio features
+*   **Machine Learning:** Scikit-Learn (`MinMaxScaler`, AGNES clustering, cosine similarity, MMR)
+*   **Data:** `kagglehub` (public Spotify audio-features dataset), RapidAPI Track Analysis (OST features)
+*   **APIs:** Spotipy for Spotify search, album discovery and playlist export
 *   **Visuals:** Plotly / Matplotlib
 
 ## Structure
-*   `/data`: The "Sound Signatures" curated datasets of audio features.
-*   `/notebooks`: Experimental "lab" for vector fusion and similarity math.
-*   `/src`: The core recommendation engine (`engine.py`).
+*   `/data`: cached audio features (game OSTs) and the public song dataset.
+*   `/notebooks`: the "lab", 01–04 build the dataset and clustering, 05 recommends real songs for a game blend, 06 exports the playlist to Spotify.
+*   `/src`: the recommendation engine (`engine.py` → the `MetaTune` class).
+
+## Using the engine
+
+```python
+from src.engine import MetaTune
+
+mt = MetaTune()
+tracks = mt.recommend({"Stardew Valley": 0.6, "Detroit: Become Human": 0.4})
+mt.to_m3u(tracks, "data/metamood.m3u8")   # import into Spotify via Soundiiz
+# mt.to_spotify(tracks)                    # or push straight to a Spotify playlist
+```
 
 Note: I cleared the output of the first 2 notebooks so I don’t leak my IDs or the raw RapidAPI data. For the rest, I left the outputs in place so you can see the analysis and results.
 
