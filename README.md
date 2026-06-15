@@ -13,7 +13,7 @@ While many users create these playlists manually, they are often biased toward i
 ## The Core Idea: Multi-Atmosphere Fusion
 Most recommenders analyze one source at a time. **MetaTune** lets you blend several games into one mood. I call those "meta-moods".
 
-Want the cozy farm life of *Stardew Valley* mixed with the cold sci-fi tension of *Detroit: Become Human*? The engine averages each game's audio "signature" into a **Mood Centroid** (the sweet spot between those worlds), then recommends **real songs**, real artists, not just other game soundtracks, that sit closest to it.
+Want the cozy farm life of *Stardew Valley* mixed with the cold sci-fi tension of *Detroit: Become Human*? The engine averages each game's audio "signature" into a **Mood Centroid** (the sweet spot between those worlds), then recommends **real songs**, real artists.
 
 ## Project Roadmap
 - [x] *Phase 1:* Track discovery with `Spotify` and audio features via `RapidAPI` (after Spotify deprecated the audio-features endpoint).
