@@ -22,7 +22,7 @@ Want the cozy farm life of *Stardew Valley* mixed with the cold sci-fi tension o
 - [x] *Phase 3:* `MinMaxScaler` for normalization, then ranking tracks by cosine similarity, with AGNES clustering + MMR re-ranking to keep the playlist varied.
 - [x] *Phase 4:* Recommending **real (non-OST) songs** from a public Spotify audio-features dataset, no RapidAPI fetching needed.
 - [x] *Phase 5:* Exporting the result as a playlist (an M3U file, or straight into a Spotify playlist through the API).
-- [ ] *Phase 6:* Interactive Radar Charts to visualize how well a recommended song overlaps the mood.
+- [x] *Phase 6:* Interactive Plotly radar charts to *see* how well a recommended song overlaps the mood (notebook 07).
 
 ## How it works
 
@@ -42,7 +42,7 @@ Want the cozy farm life of *Stardew Valley* mixed with the cold sci-fi tension o
 
 ## Structure
 *   `/data`: cached audio features (game OSTs) and the public song dataset.
-*   `/notebooks`: the "lab", 01–04 build the dataset and clustering, 05 recommends real songs for a game blend, 06 exports the playlist to Spotify.
+*   `/notebooks`: the "lab", 01–04 build the dataset and clustering, 05 recommends real songs for a game blend, 06 exports the playlist to Spotify, 07 draws radar charts of the match.
 *   `/src`: the recommendation engine (`engine.py` → the `MetaTune` class).
 
 ## Using the engine
