@@ -1,0 +1,29 @@
+# MetaTune dependencies
+# install with : pip install -r requirements.txt
+
+# core data science
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.4
+scipy>=1.11
+
+# real-music recommender : public Spotify audio-features dataset (notebook 05 / engine)
+kagglehub>=0.3
+
+# spotify : search, audio features and playlist export
+spotipy>=2.24
+python-dotenv>=1.0
+requests>=2.31
+
+# game list from steam (notebooks 01-02)
+python-steam-api>=2.2
+
+# visualisation
+matplotlib>=3.7
+seaborn>=0.13
+plotly>=5.20
+umap-learn>=0.5
+
+# running the notebooks
+notebook>=7.0
+ipywidgets>=7.8
