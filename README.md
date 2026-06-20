@@ -15,6 +15,10 @@ Most recommenders analyze one source at a time. **MetaTune** lets you blend seve
 
 Want the cozy farm life of *Stardew Valley* mixed with the cold sci-fi tension of *Detroit: Become Human*? The engine averages each game's audio "signature" into a **Mood Centroid** (the sweet spot between those worlds), then recommends **real songs**, real artists.
 
+![Radar chart of a recommended song against the meta-mood](assets/radar.png)
+
+*Blend of Stardew Valley (60%) + Detroit: Become Human (40%). The green song hugs the mood, the red one (a far-off pop track) clearly doesn't, that's what the engine ranks on.*
+
 ## Project Roadmap
 - [x] *Phase 1:* Track discovery with `Spotify` and audio features via `RapidAPI` (after Spotify deprecated the audio-features endpoint).
 (https://rapidapi.com/soundnet-soundnet-default/api/track-analysis)
